@@ -656,3 +656,4 @@ data/*
 data
 pretrained/*
 ckpts/*
+*.pt

@@ -68,10 +68,14 @@ def convert(csv_path, source_folder, yolo_base):
     process_data(train_data, yolo_images_train, yolo_labels_train, source_folder)
     process_data(test_data, yolo_images_test, yolo_labels_test, source_folder)
 
+    classes = data["noun_class"].unique()
+    label_map = {c: i for i, c in enumerate(classes)}
+
     noun_classes = {row['noun_class']: row['noun'] for _, row in data.iterrows()}
     noun_classes = {k: v for k, v in sorted(noun_classes.items(), key=lambda item: item[0])}
+    noun_classes = {label_map[k]: v for k, v in noun_classes.items()}
 
-    yaml_content = f"""path: {yolo_base}\ntrain: images/train\val: images/val\n\nnames:\n  {noun_classes}"""
+    yaml_content = f"""path: {yolo_base}\ntrain: images/train\nval: images/val\n\nnames:\n  {noun_classes}"""
     yaml_content = yaml_content.replace("{", "")
     yaml_content = yaml_content.replace("}", "")
     yaml_content = yaml_content.replace("'", "")

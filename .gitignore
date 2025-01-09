@@ -654,3 +654,5 @@ FodyWeavers.xsd
 
 data/*
 data
+pretrained/*
+ckpts/*

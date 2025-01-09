@@ -80,5 +80,5 @@ def convert(csv_path, source_folder, yolo_base):
     yaml_path = os.path.join(yolo_base, "dataset.yml")
     with open(yaml_path, "w") as yaml_file:
         yaml_file.write(yaml_content)
-
     print("Dataset preparation complete.")
+    return yaml_path

@@ -55,9 +55,9 @@ def convert(csv_path, source_folder, yolo_base):
     data = pd.read_csv(csv_path)
 
     yolo_images_train = os.path.join(yolo_base, "images/train")
-    yolo_images_test = os.path.join(yolo_base, "images/test")
+    yolo_images_test = os.path.join(yolo_base, "images/val")
     yolo_labels_train = os.path.join(yolo_base, "labels/train")
-    yolo_labels_test = os.path.join(yolo_base, "labels/test")
+    yolo_labels_test = os.path.join(yolo_base, "labels/val")
 
     for path in [yolo_images_train, yolo_images_test, yolo_labels_train, yolo_labels_test]:
         os.makedirs(path, exist_ok=True)
@@ -71,7 +71,7 @@ def convert(csv_path, source_folder, yolo_base):
     noun_classes = {row['noun_class']: row['noun'] for _, row in data.iterrows()}
     noun_classes = {k: v for k, v in sorted(noun_classes.items(), key=lambda item: item[0])}
 
-    yaml_content = f"""path: {yolo_base}\ntrain: images/train\ntest: images/test\n\nnames:\n  {noun_classes}"""
+    yaml_content = f"""path: {yolo_base}\ntrain: images/train\val: images/val\n\nnames:\n  {noun_classes}"""
     yaml_content = yaml_content.replace("{", "")
     yaml_content = yaml_content.replace("}", "")
     yaml_content = yaml_content.replace("'", "")

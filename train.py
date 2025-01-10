@@ -4,7 +4,8 @@ import argparse
 from src.utils.convert_to_yolo import convert
 from src.models.model import train, getYOLO
 
-
+import warnings
+warnings.filterwarnings("ignore")
 
 
 def main(args):

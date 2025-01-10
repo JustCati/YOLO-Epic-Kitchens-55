@@ -20,11 +20,10 @@ def main(args):
         os.makedirs(model_path)
 
     dataset_path = args.path
-    csv_path = os.path.join(os.path.dirname(dataset_path),"EPIC_train_object_labels.csv")
     yolo_base = os.path.join(os.path.dirname(dataset_path), "YOLO_dataset")
 
     if not os.path.exists(yolo_base):
-        yaml_path = convert(csv_path, dataset_path, yolo_base)
+        yaml_path = convert(os.path.dirname(dataset_path), dataset_path, yolo_base)
     else:
         yaml_path = os.path.join(yolo_base, "dataset.yml")
 
@@ -39,6 +38,7 @@ def main(args):
     #* Train YOLO model
     epochs = args.epochs
     batch_size = args.batch_size
+    device = int(args.gpu.split(":")[1]) 
     train(model=yolo_model, 
         yaml_file=yaml_path,
         batch_size=batch_size,

@@ -62,8 +62,10 @@ def convert(csv_path, source_folder, yolo_base):
     for path in [yolo_images_train, yolo_images_test, yolo_labels_train, yolo_labels_test]:
         os.makedirs(path, exist_ok=True)
 
-    train_data = data[data["participant_id"] != "P31"]
-    test_data = data[data["participant_id"] == "P31"]
+    ids = data["video_id"].unique()
+    train_id = ids[:int(len(ids) * 0.8)]
+    test_id = ids[int(len(ids) * 0.8):]
+
 
     classes = data["noun_class"].unique()
     label_map = {c: i for i, c in enumerate(classes)}

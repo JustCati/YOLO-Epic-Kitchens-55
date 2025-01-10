@@ -16,12 +16,12 @@ def convert_bbox(size, box):
 
 
 
-def process_data(subset_data, image_dest, label_dest, source_folder):
+def process_data(subset_data, image_dest, label_dest, source_folder, label_map):
         for _, row in subset_data.iterrows():
             participant_id = row["participant_id"]
             video_id = row["video_id"]
             frame_number = row["frame"]
-            class_id = row["noun_class"]
+            class_id = label_map[row["noun_class"]]
 
             bbox_list = ast.literal_eval(row["bounding_boxes"])
             if not bbox_list:  
@@ -65,11 +65,11 @@ def convert(csv_path, source_folder, yolo_base):
     train_data = data[data["participant_id"] != "P31"]
     test_data = data[data["participant_id"] == "P31"]
 
-    process_data(train_data, yolo_images_train, yolo_labels_train, source_folder)
-    process_data(test_data, yolo_images_test, yolo_labels_test, source_folder)
-
     classes = data["noun_class"].unique()
     label_map = {c: i for i, c in enumerate(classes)}
+
+    process_data(train_data, yolo_images_train, yolo_labels_train, source_folder, label_map)
+    process_data(test_data, yolo_images_test, yolo_labels_test, source_folder, label_map)
 
     noun_classes = {row['noun_class']: row['noun'] for _, row in data.iterrows()}
     noun_classes = {k: v for k, v in sorted(noun_classes.items(), key=lambda item: item[0])}

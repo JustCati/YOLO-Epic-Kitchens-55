@@ -139,8 +139,8 @@ def convert(root_folder, source_folder, yolo_base):
     process_yolo_labels(yolo_labels_test)
 
     noun_classes = {row['noun_class']: row['noun'] for _, row in data.iterrows()}
-    noun_classes = {k: v for k, v in sorted(noun_classes.items(), key=lambda item: item[0])}
     noun_classes = {label_map[k]: v for k, v in noun_classes.items()}
+    noun_classes = {k: v for k, v in sorted(noun_classes.items(), key=lambda item: item[0])}
 
     yaml_content = f"""path: {yolo_base}\ntrain: images/train\nval: images/val\n\nnames:\n  {noun_classes}"""
     yaml_content = yaml_content.replace("{", "")

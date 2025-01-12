@@ -19,7 +19,7 @@ def train(model: YOLOv10,
           folder_name: str,
           resume: bool = False,
           device = 'cuda'):
-    cpu_workers = multiprocessing.cpu_count()
+    cpu_workers = min(8, multiprocessing.cpu_count() // 2)
     results = model.train(data=yaml_file, 
                           batch=batch_size,
                           imgsz=1024,
